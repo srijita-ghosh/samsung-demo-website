@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Samsung | Innovation in Luxury</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts for Modern Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-dark: #0b101a;
+      --primary-light: #f7f8fa;
+      --accent-blue: #0af;
+      --accent-gold: #eab676;
+      --glass-bg: rgba(18, 21, 30, 0.65);
+      --glass-bg-light: rgba(255,255,255,0.65);
+      --card-bg: rgba(24, 27, 38, 0.85);
+      --card-bg-light: rgba(255,255,255,0.85);
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      --gradient: linear-gradient(135deg, #0b101a 0%, #202a44 100%);
+      --gradient-light: linear-gradient(135deg, #f7f8fa 0%, #cfd8dc 100%);
+      --transition: 0.4s cubic-bezier(.77,0,.18,1);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--gradient);
+      color: #fff;
+      margin: 0;
+      transition: background var(--transition), color var(--transition);
+    }
+    body.light {
+      background: var(--gradient-light);
+      color: #222;
+    }
+    /* Glassmorphism Navbar */
+    header {
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      transition: background var(--transition);
+    }
+    body.light header {
+      background: var(--glass-bg-light);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      text-shadow: 0 2px 12px #0af3;
+    }
+    nav a {
+      color: inherit;
+      text-decoration: none;
+      margin: 0 1.2rem;
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: color var(--transition);
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--accent-blue);
+      transition: width 0.3s;
+      margin-top: 2px;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Dark/Light Toggle */
+    .toggle-theme {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.6rem;
+      color: var(--accent-blue);
+      margin-left: 2rem;
+      transition: color var(--transition);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 8rem;
+      background: radial-gradient(ellipse at 60% 30%, #1a2a4a 0%, #0b101a 80%);
+      position: relative;
+      overflow: hidden;
+    }
+    body.light .hero {
+      background: radial-gradient(ellipse at 60% 30%, #e3eafc 0%, #f7f8fa 80%);
+    }
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-shadow: 0 8px 32px #0af2;
+    }
+    body.light .hero h1 {
+      color: #202a44;
+      text-shadow: 0 8px 32px #0af1;
+    }
+    .hero p {
+      font-size: 1.4rem;
+      margin-bottom: 2.5rem;
+      color: #e0e6ed;
+    }
+    body.light .hero p {
+      color: #4a4a4a;
+    }
+    .cta-btn {
+      background: var(--accent-blue);
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 24px #0af4;
+      transition: background var(--transition), transform 0.2s;
+      margin: 0 0.5rem;
+    }
+    .cta-btn:hover {
+      background: var(--accent-gold);
+      color: #222;
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    /* Animated Particles (Hero BG) */
+    .particles {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.45;
+      background: var(--accent-blue);
+      animation: float 6s infinite linear;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-40px) scale(1.2);}
+      100% { transform: translateY(0) scale(1);}
+    }
+
+    /* Products Showcase */
+    .products-section {
+      padding: 5rem 2rem 3rem 2rem;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      color: var(--accent-blue);
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 2.5rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition), transform 0.25s;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    body.light .product-card {
+      background: var(--card-bg-light);
+      border: 1px solid #e0e0e0;
+    }
+    .product-card:hover {
+      transform: translateY(-10px) scale(1.025);
+      background: linear-gradient(135deg, #0af2 0%, #202a44 100%);
+    }
+    .product-img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 1.2rem;
+      box-shadow: 0 8px 32px #0af3;
+      margin-bottom: 1.5rem;
+      background: #181b26;
+    }
+    .product-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      color: #fff;
+      text-align: center;
+    }
+    body.light .product-title {
+      color: #202a44;
+    }
+    .product-desc {
+      font-size: 1.05rem;
+      color: #dbe7fa;
+      margin-bottom: 1.2rem;
+      text-align: center;
+      min-height: 48px;
+    }
+    body.light .product-desc {
+      color: #444;
+    }
+    .product-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .product-btn {
+      background: var(--accent-blue);
+      color: #fff;
+      border: none;
+      border-radius: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    .product-btn:hover {
+      background: var(--accent-gold);
+      color: #202a44;
+    }
+
+    /* Storytelling Timeline */
+    .timeline-section {
+      background: var(--glass-bg);
+      padding: 4rem 2rem;
+      margin: 4rem 0 0 0;
+      border-radius: 2rem;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    body.light .timeline-section {
+      background: var(--glass-bg-light);
+    }
+    .timeline-title {
+      font-size: 2rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--accent-gold));
+      transform: translateX(-50%);
+      opacity: 0.2;
+    }
+    .timeline-event {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+    }
+    .timeline-event:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .timeline-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      border: 4px solid #fff;
+      box-shadow: 0 0 16px #0af7;
+      z-index: 2;
+    }
+    .timeline-content {
+      background: rgba(255,255,255,0.07);
+      border-radius: 1.2rem;
+      padding: 1.2rem 2rem;
+      min-width: 220px;
+      max-width: 400px;
+      box-shadow: 0 4px 24px #0af2;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    body.light .timeline-content {
+      color: #202a44;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #e0e0e0;
+    }
+
+    /* Awards & Trust */
+    .awards-section {
+      margin: 4rem auto 2rem auto;
+      padding: 2.5rem 2rem;
+      max-width: 1100px;
+      background: var(--glass-bg);
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    body.light .awards-section {
+      background: var(--glass-bg-light);
+    }
+    .awards-title {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .awards-logos {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .award-badge {
+      background: #fff2;
+      border-radius: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      color: var(--accent-gold);
+      font-weight: 600;
+      box-shadow: 0 2px 8px #eab67655;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    body.light .award-badge {
+      background: #fff8;
+      color: #a67c52;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--glass-bg);
+      color: #dbe7fa;
+      text-align: center;
+      padding: 2rem 1rem;
+      border-radius: 2rem 2rem 0 0;
+      margin: 3rem 2rem 1rem 2rem;
+      font-size: 1.1rem;
+      box-shadow: 0 -4px 24px #0af2;
+    }
+    body.light footer {
+      background: var(--glass-bg-light);
+      color: #444;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-event {
+        flex-direction: column !important;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .timeline::before {
+        left: 0;
+        width: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      header {
+        padding: 1rem 1rem;
+      }
+      .hero h1 {
+        font-size: 2.1rem;
+      }
+      .section-title, .timeline-title, .awards-title {
+        font-size: 1.3rem;
+      }
+      .timeline-content {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+      }
+      .products-section {
+        padding: 2.5rem 1rem 1.5rem 1rem;
+      }
+      .awards-section {
+        padding: 1.2rem 1rem;
+      }
+      footer {
+        font-size: 0.95rem;
+        margin: 2rem 0.5rem 0.5rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <span class="logo">SAMSUNG</span>
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#story">Innovation Story</a>
+      <a href="#awards">Awards</a>
+    </nav>
+    <button class="toggle-theme" title="Toggle dark/light mode" id="themeToggle">🌙</button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="particles" id="particles"></div>
+    <div class="hero-content">
+      <h1>Technological Supremacy. Crafted Elegance.</h1>
+      <p>Experience the future with Samsung’s flagship innovations.<br>
+        <span style="color:var(--accent-gold); font-weight:600;">Galaxy | Neo QLED | Foldables</span>
+      </p>
+      <a href="#products" class="cta-btn">Explore Products</a>
+      <a href="#story" class="cta-btn">Our Innovation Story</a>
+    </div>
+  </section>
+
+  <!-- Products Showcase -->
+  <section class="products-section" id="products">
+    <div class="section-title">Flagship Products</div>
+    <div class="products-grid">
+      <!-- Product 1 -->
+      <div class="product-card">
+        <img src="https://images.samsung.com/is/image/samsung/p6pim/in/sm-s928bzkgins/gallery/in-galaxy-s24-ultra-s928-sm-s928bzkgins-thumb-539537308?$344_344_PNG$" alt="Galaxy S24 Ultra" class="product-img">
+        <div class="product-title">Galaxy S24 Ultra</div>
+        <div class="product-desc">AI-powered photography. Titanium design. 200MP Pro-grade camera. The pinnacle of smartphone innovation.</div>
+        <div class="product-actions">
+          <button class="product-btn">Buy Now</button>
+          <button class="product-btn">360° View</button>
+        </div>
+      </div>
+      <!-- Product 2 -->
+      <div class="product-card">
+        <img src="https://os-wordpress-media.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2022/04/12115537/Untitled-design-2022-04-12T115532.323.jpg" alt="Neo QLED TV" class="product-img">
+        <div class="product-title">Neo QLED 8K TV</div>
+        <div class="product-desc">Quantum Matrix Technology. Infinity One Design. Cinematic visuals with AI upscaling and Dolby Atmos.</div>
+        <div class="product-actions">
+          <button class="product-btn">Buy Now</button>
+          <button class="product-btn">Explore Features</button>
+        </div>
+      </div>
+      <!-- Product 3 -->
+      <div class="product-card" id="foldableCard">
+        <img src="https://images.samsung.com/is/image/samsung/p6pim/in/sm-f946bzkdins/gallery/in-galaxy-z-fold5-f946-sm-f946bzkdins-thumb-539537308?$344_344_PNG$" alt="Galaxy Z Fold5" class="product-img" id="foldableImg">
+        <div class="product-title">Galaxy Z Fold5</div>
+        <div class="product-desc">Seamless fold. Flex Mode. Multitasking reimagined. Experience the future of smartphones.</div>
+        <div class="product-actions">
+          <button class="product-btn">Buy Now</button>
+          <button class="product-btn" id="foldBtn">Fold/Unfold</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Storytelling -->
+  <section class="timeline-section" id="story">
+    <div class="timeline-title">Samsung: A Journey of Innovation</div>
+    <div class="timeline">
+      <div class="timeline-event">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <b>1969</b>: Samsung Electronics is born, setting the stage for global tech leadership.
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <b>2010</b>: The Galaxy S series redefines smartphones, introducing AMOLED brilliance.
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <b>2019</b>: Launch of the world’s first foldable phone-Galaxy Fold-pushing boundaries.
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <b>2024</b>: AI-powered Galaxy S24 Ultra and Neo QLED TVs set new standards in luxury tech.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards & Trust -->
+  <section class="awards-section" id="awards">
+    <div class="awards-title">Global Prestige & Trust</div>
+    <div class="awards-logos">
+      <div class="award-badge">🏆 Forbes Global 2000</div>
+      <div class="award-badge">🌱 Sustainability Leader</div>
+      <div class="award-badge">🔒 Trusted by 1B+ Users</div>
+      <div class="award-badge">🤝 Fortune 500 Partner</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Samsung. Crafted by <b>AI for Perplexity</b> | All images & logos © Samsung Electronics. <br>
+    <span style="color:var(--accent-blue);">Innovation. Luxury. Trust.</span>
+  </footer>
+
+  <!-- JavaScript for Interactivity, Theme, Particles, Fold Animation -->
+  <script>
+    // Dark/Light Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.onclick = () => {
+      document.body.classList.toggle('light');
+      themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+    };
+
+    // Animated Particles in Hero Section
+    function createParticles() {
+      const particles = document.getElementById('particles');
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.width = `${10 + Math.random()*32}px`;
+        p.style.height = p.style.width;
+        p.style.left = `${Math.random()*100}%`;
+        p.style.top = `${Math.random()*100}%`;
+        p.style.animationDuration = `${3 + Math.random()*6}s`;
+        p.style.background = Math.random() > 0.7 ? 'var(--accent-gold)' : 'var(--accent-blue)';
+        particles.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // Fold/Unfold Animation for Foldable Phone
+    const foldBtn = document.getElementById('foldBtn');
+    const foldableImg = document.getElementById('foldableImg');
+    let isFolded = false;
+    foldBtn.onclick = () => {
+      isFolded = !isFolded;
+      foldableImg.style.transition = 'transform 0.7s cubic-bezier(.77,0,.18,1)';
+      foldableImg.style.transform = isFolded ? 'perspective(400px) rotateY(60deg) scaleX(0.65)' : 'perspective(400px) rotateY(0deg) scaleX(1)';
+      foldBtn.textContent = isFolded ? 'Unfold' : 'Fold';
+    };
+
+    // Scroll-based reveal animation (basic)
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.product-card, .timeline-event, .awards-section');
+      for (const el of reveals) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        } else {
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(40px)';
+        }
+      }
+    }
+    document.addEventListener('scroll', revealOnScroll);
+    window.onload = () => {
+      // Initial animation
+      document.querySelectorAll('.product-card, .timeline-event, .awards-section').forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(40px)';
+        el.style.transition = 'opacity 0.8s, transform 0.8s';
+      });
+      setTimeout(revealOnScroll, 200);
+    };
+  </script>
+</body>
+</html>
